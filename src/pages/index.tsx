@@ -14,11 +14,22 @@ export default function Home() {
 	const firstPoke = trpc.useQuery(["get-pokemon-by-id", { id: first }]);
 	const secondPoke = trpc.useQuery(["get-pokemon-by-id", { id: second }]);
 
+	const voteMutate = trpc.useMutation(["cast-vote"]);
+
 	if (firstPoke.isLoading || secondPoke.isLoading) return null;
 
 	const voteForCoolest = (selected: number) => {
 		// fire mutation to persist changes
-
+		if(selected === first){
+			voteMutate.mutate({
+				voteFor: first,
+				votedAgainst: second
+			})
+		}
+		voteMutate.mutate({
+			voteFor: second,
+			votedAgainst: first,
+		});
 		updateIds(getOptionsForVote());
 	};
 
