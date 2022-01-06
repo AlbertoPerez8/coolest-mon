@@ -1,6 +1,8 @@
 import { getOptionsForVote } from "@/utils/getRandomPokemon";
 import { trpc } from "@/utils/trpc";
 import { useState } from "react";
+import type React from "react";
+import { inferQueryResponse } from "./api/trpc/[trpc]";
 
 const buttonClasses =
 	"inline-flex items-center px-3 py-1.5 border border-gray-500 shadow-sm font-small rounded-full text-white bg-cyan-700 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
@@ -25,45 +27,46 @@ export default function Home() {
 			<div className="text-2xl text-center">Select the coolest pokémon</div>
 			<div className="p-2" />
 			<div className="border rounded p-8 flex justify-between items-center max-w-2xl">
-				<div className="w-64 h-64 flex flex-col items-center">
-					{/* <img
-						src={firstPoke.data?.sprites.front_default}
-						className="w-full"
-					/> */}
-					<div className="text-xl text-center capitalize mt-[-2rem]">
-						{firstPoke.data?.name}
-					</div>
-					<button
-						className={buttonClasses}
-						onClick={() => {
-							voteForCoolest(first);
-						}}
-					>
-						Cooler
-					</button>
-				</div>
-
-				<div className="p-6">VS</div>
-
-				<div className="w-64 h-64 flex flex-col items-center">
-					{/* <img
-						src={secondPoke.data?.sprites.front_default}
-						className="w-full"
-					/> */}
-					<div className="text-xl text-center capitalize mt-[-2rem]">
-						{secondPoke.data?.name}
-					</div>
-					<button
-						className={buttonClasses}
-						onClick={() => {
-							voteForCoolest(second);
-						}}
-					>
-						Cooler
-					</button>
-				</div>
+				{!firstPoke.isLoading &&
+					firstPoke.data &&
+					!secondPoke.isLoading &&
+					secondPoke.data && (
+						<>
+							<PokemonListing
+								pokemon={firstPoke.data}
+								vote={() => voteForCoolest(first)}
+							/>
+							<div className="p-6">VS</div>
+							<PokemonListing
+								pokemon={secondPoke.data}
+								vote={() => voteForCoolest(second)}
+							/>
+						</>
+					)}
 			</div>
 			<div className="p-2" />
 		</div>
 	);
 }
+type PokemonFromServer = inferQueryResponse<"get-pokemon-by-id">;
+
+const PokemonListing: React.FC<{ pokemon: PokemonFromServer; vote: () => void }> = (
+	props
+) => {
+	return (
+		<div className="flex flex-col items-center">
+			{/* <img src={props.pokemon.sprites.front_default} className="w-64 h-64" /> */}
+			<div className="text-xl text-center capitalize mt-[-0.5rem]">
+				{props.pokemon.name}
+			</div>
+			<button
+				className={buttonClasses}
+				onClick={() => {
+					props.vote();
+				}}
+			>
+				Cooler
+			</button>
+		</div>
+	);
+};
