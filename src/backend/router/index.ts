@@ -28,6 +28,7 @@ export const appRouter = trpc
 					votedAgainst: input.votedAgainst,
 				},
 			});
+			await prisma.$disconnect();
 			return { success: true, vote: voteInDb };
 		},
 	});

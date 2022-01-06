@@ -4,6 +4,8 @@ import { useState } from "react";
 import type React from "react";
 import { inferQueryResponse } from "./api/trpc/[trpc]";
 
+import Image from "next/image";
+
 const buttonClasses =
 	"inline-flex items-center px-3 py-1.5 border border-gray-500 shadow-sm font-small rounded-full text-white bg-cyan-700 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
 
@@ -20,11 +22,11 @@ export default function Home() {
 
 	const voteForCoolest = (selected: number) => {
 		// fire mutation to persist changes
-		if(selected === first){
+		if (selected === first) {
 			voteMutate.mutate({
 				voteFor: first,
-				votedAgainst: second
-			})
+				votedAgainst: second,
+			});
 		}
 		voteMutate.mutate({
 			voteFor: second,
@@ -54,19 +56,28 @@ export default function Home() {
 							/>
 						</>
 					)}
+				<div className="p-2" />
 			</div>
-			<div className="p-2" />
+			<div className="absolute bottom-0 w-full text-xl text-center pb-2">
+				<a href="https://github.com/AlbertoPerez8/coolest-mon">Github Page</a>
+			</div>
 		</div>
 	);
 }
 type PokemonFromServer = inferQueryResponse<"get-pokemon-by-id">;
 
-const PokemonListing: React.FC<{ pokemon: PokemonFromServer; vote: () => void }> = (
-	props
-) => {
+const PokemonListing: React.FC<{
+	pokemon: PokemonFromServer;
+	vote: () => void;
+}> = (props) => {
 	return (
 		<div className="flex flex-col items-center">
-			{/* <img src={props.pokemon.sprites.front_default} className="w-64 h-64" /> */}
+			<Image
+				src={props.pokemon.sprites.front_default||""}
+				alt=""
+				width={256}
+				height={256}
+			/>
 			<div className="text-xl text-center capitalize mt-[-0.5rem]">
 				{props.pokemon.name}
 			</div>
