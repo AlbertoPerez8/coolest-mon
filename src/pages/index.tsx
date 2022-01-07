@@ -59,7 +59,9 @@ export default function Home() {
 				<div className="p-2" />
 			</div>
 			<div className="absolute bottom-0 w-full text-xl text-center pb-2">
-				<a href="https://github.com/AlbertoPerez8/coolest-mon">Github Page</a>
+				<a href="https://github.com/AlbertoPerez8/coolest-mon">
+					Github Page
+				</a>
 			</div>
 		</div>
 	);
@@ -73,7 +75,7 @@ const PokemonListing: React.FC<{
 	return (
 		<div className="flex flex-col items-center">
 			<Image
-				src={props.pokemon.sprites.front_default||""}
+				src={props.pokemon.spriteUrl}
 				alt=""
 				width={256}
 				height={256}
