@@ -36,30 +36,37 @@ export default function Home() {
 		updateIds(getOptionsForVote());
 	};
 
+	const loadedData =
+		!firstPoke.isLoading &&
+		firstPoke.data &&
+		!secondPoke.isLoading &&
+		secondPoke.data;
+
 	return (
-		<div className="h-screen w-screen flex flex-col justify-center items-center">
-			<div className="text-2xl text-center">Select the coolest pokémon</div>
-			<div className="p-2" />
-			<div className="border rounded p-8 flex justify-between items-center max-w-2xl">
-				{!firstPoke.isLoading &&
-					firstPoke.data &&
-					!secondPoke.isLoading &&
-					secondPoke.data && (
-						<>
-							<PokemonListing
-								pokemon={firstPoke.data}
-								vote={() => voteForCoolest(first)}
-							/>
-							<div className="p-6">VS</div>
-							<PokemonListing
-								pokemon={secondPoke.data}
-								vote={() => voteForCoolest(second)}
-							/>
-						</>
-					)}
-				<div className="p-2" />
+		<div className="h-screen w-screen flex flex-col justify-between items-center">
+			<div className="text-2xl text-center pt-8">
+				Select the coolest pokémon
 			</div>
-			<div className="absolute bottom-0 w-full text-xl text-center pb-2">
+			{loadedData && (
+				<div className="border rounded p-8 flex justify-between items-center max-w-2xl">
+					<>
+						<PokemonListing
+							pokemon={firstPoke.data}
+							vote={() => voteForCoolest(first)}
+						/>
+						<div className="p-6">VS</div>
+						<PokemonListing
+							pokemon={secondPoke.data}
+							vote={() => voteForCoolest(second)}
+						/>
+					</>
+					<div className="p-2" />
+				</div>
+			)}
+
+			{!loadedData && <img src="puff.svg" alt="" className="w-40" />}
+
+			<div className=" w-full text-xl text-center pb-2">
 				<a href="https://github.com/AlbertoPerez8/coolest-mon">
 					Github Page
 				</a>
