@@ -72,7 +72,7 @@ export default function Home() {
 				</a>
 				{" | "}
 				<Link href="/results">
-					<a href="/results">Results</a>
+					Results
 				</Link>
 			</div>
 		</div>
