@@ -5,6 +5,7 @@ import type React from "react";
 import { inferQueryResponse } from "./api/trpc/[trpc]";
 
 import Image from "next/image";
+import Link from "next/link";
 
 const buttonClasses =
 	"inline-flex items-center px-3 py-1.5 border border-gray-500 shadow-sm font-small rounded-full text-white bg-cyan-700 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
@@ -62,6 +63,10 @@ export default function Home() {
 				<a href="https://github.com/AlbertoPerez8/coolest-mon">
 					Github Page
 				</a>
+				{" | "}
+				<Link href="/results">
+					<a href="/results">Results</a>
+				</Link>
 			</div>
 		</div>
 	);
@@ -74,12 +79,7 @@ const PokemonListing: React.FC<{
 }> = (props) => {
 	return (
 		<div className="flex flex-col items-center">
-			<Image
-				src={props.pokemon.spriteUrl}
-				alt=""
-				width={256}
-				height={256}
-			/>
+			<Image src={props.pokemon.spriteUrl} alt="" width={256} height={256} />
 			<div className="text-xl text-center capitalize mt-[-0.5rem]">
 				{props.pokemon.name}
 			</div>
