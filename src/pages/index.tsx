@@ -66,7 +66,8 @@ export default function Home() {
 				firstPoke.data &&
 				!secondPoke.isLoading &&
 				secondPoke.data
-			) && <img src="puff.svg" alt="" className="w-40" />}
+			) 
+			 && <Image src="../../public/puff.svg" alt="" width={40} height={40} />}
 
 			<div className=" w-full text-xl text-center pb-2">
 				<a href="https://github.com/AlbertoPerez8/coolest-mon">
